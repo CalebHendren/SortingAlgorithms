@@ -4,7 +4,6 @@
 
 ## Project Structure
 - **src/visualizer.rs**: Contains functions to render the current state of the array.
-- **src/shellsort.rs**: Implements the Shell Sort algorithm and integrates with the visualizer.
 - Additional modules can be added for other sorting algorithms as needed.
 
 ## Getting Started
