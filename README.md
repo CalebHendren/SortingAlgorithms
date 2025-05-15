@@ -1,6 +1,5 @@
 ## Features
 - Visualizes sorting algorithms as dynamic bar charts in the terminal.
-- Implements Shell Sort with live update visualization.
 - Easy to extend with additional sorting algorithms.
 
 ## Project Structure
