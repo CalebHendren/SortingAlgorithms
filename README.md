@@ -15,7 +15,7 @@
 ### Installation
 1. Clone the repository:
    ```
-   git clone <repository_url>
+   gh repo clone CalebHendren/SortingAlgorithms
    ```
 2. Navigate to the project directory:
    ```
