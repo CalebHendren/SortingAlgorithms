@@ -23,6 +23,7 @@ mod miraclesort;
 mod bozosort;
 mod slowsort;
 mod humansort;
+mod powersort;
 
 use std::io::{self, Write};
 
@@ -44,9 +45,10 @@ fn main() {
         println!("12. Cocktail Shaker Sort");
         println!("13. Gnomesort");
         println!("14. Combsort");
+        println!("15. Power Sort");
 
         let mut choice = String::new();
-        print!("Enter choice (0-14): ");
+        print!("Enter choice (0-15): ");
         io::stdout().flush().unwrap();
         io::stdin().read_line(&mut choice).unwrap();
         let choice = choice.trim();
@@ -64,9 +66,9 @@ fn main() {
         }
 
         match choice {
-            "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11" | "12" | "13" | "14" => {},
+            "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11" | "12" | "13" | "14" | "15" => {},
             _ => {
-                println!("Only 0: Meme Algorithms, 1: Quicksort, 2: Bubblesort, 3: Heapsort, 4: Insertionsort, 5: Mergesort, 6: Shellsort, 7: Timsort, 8: Countingsort, 9: Radixsort, 10: Bucketsort, 11: Cyclesort, 12: Cocktail Shaker Sort, 13: Gnomesort, 14: Combsort are implemented.");
+                println!("Only 0: Meme Algorithms, 1: Quicksort, 2: Bubblesort, 3: Heapsort, 4: Insertionsort, 5: Mergesort, 6: Shellsort, 7: Timsort, 8: Countingsort, 9: Radixsort, 10: Bucketsort, 11: Cyclesort, 12: Cocktail Shaker Sort, 13: Gnomesort, 14: Combsort, 15: Power Sort are implemented.");
                 continue;
             }
         }
@@ -89,6 +91,7 @@ fn main() {
             "12" => cocktailshakersort::cocktail_shaker_sort(&mut array),
             "13" => gnomesort::gnome_sort(&mut array),
             "14" => combsort::comb_sort(&mut array),
+            "15" => powersort::power_sort(&mut array),
             _ => unreachable!(),
         }
 
@@ -103,16 +106,16 @@ fn main() {
 fn show_meme_menu() -> Option<&'static str> {
     loop {
         println!("\nChoose a meme sorting algorithm:");
-        println!("0. Bogosort");
-        println!("1. Quantum Bogosort");
-        println!("2. Stalin Sort");
-        println!("3. Elon Sort");
-        println!("4. Intelligent Design Sort");
-        println!("5. Miracle Sort");
-        println!("6. Bozo Sort");
-        println!("7. Slow Sort");
-        println!("8. Human Sort");
-        println!("9. Back to Main Menu");
+        println!("0. Back to Main Menu");
+        println!("1. Bogosort");
+        println!("2. Quantum Bogosort");
+        println!("3. Stalin Sort");
+        println!("4. Elon Sort");
+        println!("5. Intelligent Design Sort");
+        println!("6. Miracle Sort");
+        println!("7. Bozo Sort");
+        println!("8. Slow Sort");
+        println!("9. Human Sort");
 
         let mut choice = String::new();
         print!("Enter choice (0-9): ");
@@ -121,16 +124,16 @@ fn show_meme_menu() -> Option<&'static str> {
         let choice = choice.trim();
 
         match choice {
-            "0" => return Some("0"),
-            "1" => return Some("15"),
-            "2" => return Some("16"),
-            "3" => return Some("17"),
-            "4" => return Some("18"),
-            "5" => return Some("19"),
-            "6" => return Some("20"),
-            "7" => return Some("21"),
-            "8" => return Some("22"),
-            "9" => return None,
+            "0" => return None,
+            "1" => return Some("0"),
+            "2" => return Some("15"),
+            "3" => return Some("16"),
+            "4" => return Some("17"),
+            "5" => return Some("18"),
+            "6" => return Some("19"),
+            "7" => return Some("20"),
+            "8" => return Some("21"),
+            "9" => return Some("22"),
             _ => {
                 println!("Invalid choice. Please select between 0 and 9.");
                 continue;
