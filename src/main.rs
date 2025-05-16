@@ -1,31 +1,34 @@
-mod rng;
-mod quicksort;
-mod bubblesort;
-mod heapsort;
-mod bogosort;
 mod visualizer;
-mod insertionsort;
-mod mergesort;
-mod shellsort;
-mod timsort;
-mod countingsort;
-mod radixsort;
-mod bucketsort;
-mod cyclesort;
-mod cocktailshakersort;
-mod gnomesort;
-mod combsort;
-mod quantumbogosort;
-mod stalinsort;
-mod elonsort;
-mod intelligentdesignsort;
-mod miraclesort;
-mod bozosort;
-mod slowsort;
-mod humansort;
-mod powersort;
-
+mod algorithms;
+pub mod rng;
 use std::io::{self, Write};
+use algorithms::{
+    bogosort,
+    bozosort,
+    bricksort,
+    bubblesort,
+    bucketsort,
+    cocktailshakersort,
+    combsort,
+    countingsort,
+    cyclesort,
+    elonsort,
+    gnomesort,
+    heapsort,
+    humansort,
+    insertionsort,
+    intelligentdesignsort,
+    mergesort,
+    miraclesort,
+    powersort,
+    quantumbogosort,
+    quicksort,
+    radixsort,
+    shellsort,
+    slowsort,
+    stalinsort,
+    timsort
+};
 
 fn main() {
     loop {
@@ -46,9 +49,10 @@ fn main() {
         println!("13. Gnomesort");
         println!("14. Combsort");
         println!("15. Power Sort");
+        println!("16. Brick Sort");
 
         let mut choice = String::new();
-        print!("Enter choice (0-15): ");
+        print!("Enter choice (0-16): ");
         io::stdout().flush().unwrap();
         io::stdin().read_line(&mut choice).unwrap();
         let choice = choice.trim();
@@ -66,9 +70,9 @@ fn main() {
         }
 
         match choice {
-            "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11" | "12" | "13" | "14" | "15" => {},
+            "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11" | "12" | "13" | "14" | "15" | "16" => {},
             _ => {
-                println!("Only 0: Meme Algorithms, 1: Quicksort, 2: Bubblesort, 3: Heapsort, 4: Insertionsort, 5: Mergesort, 6: Shellsort, 7: Timsort, 8: Countingsort, 9: Radixsort, 10: Bucketsort, 11: Cyclesort, 12: Cocktail Shaker Sort, 13: Gnomesort, 14: Combsort, 15: Power Sort are implemented.");
+                println!("Only 0: Meme Algorithms, 1: Quicksort, 2: Bubblesort, 3: Heapsort, 4: Insertionsort, 5: Mergesort, 6: Shellsort, 7: Timsort, 8: Countingsort, 9: Radixsort, 10: Bucketsort, 11: Cyclesort, 12: Cocktail Shaker Sort, 13: Gnomesort, 14: Combsort, 15: Power Sort, 16: Brick Sort are implemented.");
                 continue;
             }
         }
@@ -92,11 +96,11 @@ fn main() {
             "13" => gnomesort::gnome_sort(&mut array),
             "14" => combsort::comb_sort(&mut array),
             "15" => powersort::power_sort(&mut array),
+            "16" => bricksort::brick_sort(&mut array),
             _ => unreachable!(),
-        }
+        };
 
         visualizer::draw(&array);
-
         println!("Sorting complete. Press Enter to return to menu.");
         let mut tmp = String::new();
         io::stdin().read_line(&mut tmp).unwrap();
@@ -155,7 +159,7 @@ fn run_sorting(choice: &str, array_gen: &mut dyn FnMut() -> Vec<i32>) {
         "21" => slowsort::slowsort(&mut array),
         "22" => humansort::human_sort(&mut array),
         _ => unreachable!(),
-    }
+    };
     visualizer::draw(&array);
     println!("Sorting complete. Press Enter to return to menu.");
     let mut tmp = String::new();
