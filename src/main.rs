@@ -2,105 +2,85 @@ mod visualizer;
 mod algorithms;
 pub mod rng;
 use std::io::{self, Write};
+
 use algorithms::{
-    bogosort,
-    bozosort,
-    bricksort,
-    bubblesort,
-    bucketsort,
-    cocktailshakersort,
-    combsort,
-    countingsort,
-    cyclesort,
-    elonsort,
-    gnomesort,
-    heapsort,
-    humansort,
-    insertionsort,
-    intelligentdesignsort,
-    mergesort,
-    miraclesort,
-    pigeonholesort,
-    powersort,
-    quantumbogosort,
-    quicksort,
-    radixsort,
-    shellsort,
-    slowsort,
-    stalinsort,
-    timsort
+    bogosort, bozosort, bricksort, bubblesort, bucketsort, cocktailshakersort, combsort,
+    countingsort, cyclesort, elonsort, gnomesort, heapsort, humansort, insertionsort,
+    intelligentdesignsort, mergesort, miraclesort, pigeonholesort, powersort, quantumbogosort,
+    quicksort, radixsort, shellsort, slowsort, stalinsort, timsort,
 };
 
+// Define a type for sorting functions to make the code cleaner
+type SortFn = fn(&mut [i32]);
+
+// Struct to hold information about a sorting algorithm
+struct SortingAlgorithm {
+    name: &'static str,
+    sort_fn: SortFn,
+}
+
+// Enum to differentiate between standard and meme algorithms
+enum AlgorithmCategory {
+    Standard(Vec<SortingAlgorithm>),
+    Meme(Vec<SortingAlgorithm>),
+}
+
 fn main() {
+    // Define standard sorting algorithms
+    let standard_algorithms = AlgorithmCategory::Standard(vec![
+        SortingAlgorithm { name: "Brick Sort", sort_fn: bricksort::brick_sort },
+        SortingAlgorithm { name: "Bubble Sort", sort_fn: bubblesort::bubble_sort },
+        SortingAlgorithm { name: "Bucket Sort", sort_fn: bucketsort::bucket_sort },
+        SortingAlgorithm { name: "Cocktail Shaker Sort", sort_fn: cocktailshakersort::cocktail_shaker_sort },
+        SortingAlgorithm { name: "Comb Sort", sort_fn: combsort::comb_sort },
+        SortingAlgorithm { name: "Counting Sort", sort_fn: countingsort::counting_sort },
+        SortingAlgorithm { name: "Cycle Sort", sort_fn: cyclesort::cycle_sort },
+        SortingAlgorithm { name: "Gnome Sort", sort_fn: gnomesort::gnome_sort },
+        SortingAlgorithm { name: "Heap Sort", sort_fn: heapsort::heap_sort },
+        SortingAlgorithm { name: "Insertion Sort", sort_fn: insertionsort::insertion_sort },
+        SortingAlgorithm { name: "Merge Sort", sort_fn: mergesort::merge_sort },
+        SortingAlgorithm { name: "Pigeonhole Sort", sort_fn: pigeonholesort::pigeonhole_sort },
+        SortingAlgorithm { name: "Power Sort", sort_fn: powersort::power_sort },
+        SortingAlgorithm { name: "Quick Sort", sort_fn: quicksort::quicksort },
+        SortingAlgorithm { name: "Radix Sort", sort_fn: radixsort::radix_sort },
+        SortingAlgorithm { name: "Shell Sort", sort_fn: shellsort::shell_sort },
+        SortingAlgorithm { name: "Tim Sort", sort_fn: timsort::timsort },
+    ]);
+
+    // Define meme sorting algorithms
+    let meme_algorithms = AlgorithmCategory::Meme(vec![
+        SortingAlgorithm { name: "Bogo Sort", sort_fn: bogosort::bogo_sort },
+        SortingAlgorithm { name: "Bozo Sort", sort_fn: bozosort::bozo_sort },
+        SortingAlgorithm { name: "Elon Sort", sort_fn: elonsort::elon_sort },
+        SortingAlgorithm { name: "Human Sort", sort_fn: humansort::human_sort },
+        SortingAlgorithm { name: "Intelligent Design Sort", sort_fn: intelligentdesignsort::intelligent_design_sort },
+        SortingAlgorithm { name: "Miracle Sort", sort_fn: miraclesort::miracle_sort },
+        SortingAlgorithm { name: "Quantum Bogo Sort", sort_fn: quantumbogosort::quantum_bogo_sort },
+        SortingAlgorithm { name: "Slow Sort", sort_fn: slowsort::slowsort },
+        SortingAlgorithm { name: "Stalin Sort", sort_fn: stalinsort::stalinsort },
+    ]);
+
     loop {
-        println!("Choose a sorting algorithm:");
-        println!("0. Meme Algorithms");
-        println!("1. Brick Sort");
-        println!("2. Bubblesort");
-        println!("3. Bucketsort");
-        println!("4. Cocktail Shaker Sort");
-        println!("5. Combsort");
-        println!("6. Countingsort");
-        println!("7. Cyclesort");
-        println!("8. Gnomesort");
-        println!("9. Heapsort");
-        println!("10. Insertionsort");
-        println!("11. Mergesort");
-        println!("12. Pigeonhole Sort");
-        println!("13. Power Sort");
-        println!("14. Quicksort");
-        println!("15. Radixsort");
-        println!("16. Shellsort");
-        println!("17. Timsort");
+        display_menu(&standard_algorithms);
+        let choice = get_user_choice(0, get_algorithm_count(&standard_algorithms));
 
-        let mut choice = String::new();
-        print!("Enter choice (0-17): ");
-        io::stdout().flush().unwrap();
-        io::stdin().read_line(&mut choice).unwrap();
-        let choice = choice.trim();
-
-        if choice == "0" {
-            let meme_choice = show_meme_menu();
-            if let Some(selected) = meme_choice {
-                run_sorting(selected, &mut || {
-                    let mut array = get_array_settings();
-                    visualizer::draw(&array);
-                    array
-                });
+        let mut array = if choice == 0 {
+            match show_meme_menu(&meme_algorithms) {
+                Some(meme_choice) => {
+                    let mut arr = get_array_settings();
+                    visualizer::draw(&arr);
+                    run_sorting_algorithm(meme_choice, &mut arr);
+                    arr
+                }
+                None => continue,
             }
-            continue;
-        }
-
-        match choice {
-            "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11" | "12" | "13" | "14" | "15" | "16" | "17" => {},
-            _ => {
-                println!("Only 0: Meme Algorithms, 1: Brick Sort, 2: Bubblesort, 3: Bucketsort, 4: Cocktail Shaker Sort, 5: Combsort, 6: Countingsort, 7: Cyclesort, 8: Gnomesort, 9: Heapsort, 10: Insertionsort, 11: Mergesort, 12: Pigeonhole Sort, 13: Power Sort, 14: Quicksort, 15: Radixsort, 16: Shellsort, 17: Timsort are implemented.");
-                continue;
+        } else {
+            let mut arr = get_array_settings();
+            visualizer::draw(&arr);
+            if let AlgorithmCategory::Standard(ref algos) = standard_algorithms {
+                run_sorting_algorithm(algos[choice - 1].sort_fn, &mut arr);
             }
-        }
-
-        let mut array = get_array_settings();
-        visualizer::draw(&array);
-
-        match choice {
-            "1" => bricksort::brick_sort(&mut array),
-            "2" => bubblesort::bubble_sort(&mut array),
-            "3" => bucketsort::bucket_sort(&mut array),
-            "4" => cocktailshakersort::cocktail_shaker_sort(&mut array),
-            "5" => combsort::comb_sort(&mut array),
-            "6" => countingsort::counting_sort(&mut array),
-            "7" => cyclesort::cycle_sort(&mut array),
-            "8" => gnomesort::gnome_sort(&mut array),
-            "9" => heapsort::heap_sort(&mut array),
-            "10" => insertionsort::insertion_sort(&mut array),
-            "11" => mergesort::merge_sort(&mut array),
-            "12" => pigeonholesort::pigeonhole_sort(&mut array),
-            "13" => powersort::power_sort(&mut array),
-            "14" => quicksort::quicksort(&mut array),
-            "15" => radixsort::radix_sort(&mut array),
-            "16" => shellsort::shell_sort(&mut array),
-            "17" => timsort::timsort(&mut array),
-            _ => unreachable!(),
+            arr
         };
 
         visualizer::draw(&array);
@@ -110,65 +90,71 @@ fn main() {
     }
 }
 
-fn show_meme_menu() -> Option<&'static str> {
-    loop {
-        println!("\nChoose a meme sorting algorithm:");
-        println!("0. Back to Main Menu");
-        println!("1. Bogosort");
-        println!("2. Bozo Sort");
-        println!("3. Elon Sort");
-        println!("4. Human Sort");
-        println!("5. Intelligent Design Sort");
-        println!("6. Miracle Sort");
-        println!("7. Quantum Bogosort");
-        println!("8. Slow Sort");
-        println!("9. Stalin Sort");
+// Display menu for standard algorithms
+fn display_menu(category: &AlgorithmCategory) {
+    println!("Choose a sorting algorithm:");
+    println!("0. Meme Algorithms");
+    if let AlgorithmCategory::Standard(ref algos) = category {
+        for (i, algo) in algos.iter().enumerate() {
+            println!("{}. {}", i + 1, algo.name);
+        }
+    }
+}
 
+// Get the number of algorithms in a category
+fn get_algorithm_count(category: &AlgorithmCategory) -> usize {
+    match category {
+        AlgorithmCategory::Standard(algos) => algos.len(),
+        AlgorithmCategory::Meme(algos) => algos.len(),
+    }
+}
+
+// Get user choice with input validation
+fn get_user_choice(min: usize, max: usize) -> usize {
+    loop {
         let mut choice = String::new();
-        print!("Enter choice (0-9): ");
+        print!("Enter choice (0-{}): ", max);
         io::stdout().flush().unwrap();
         io::stdin().read_line(&mut choice).unwrap();
         let choice = choice.trim();
 
-        match choice {
-            "0" => return None,
-            "1" => return Some("0"),
-            "2" => return Some("20"),
-            "3" => return Some("17"),
-            "4" => return Some("22"),
-            "5" => return Some("18"),
-            "6" => return Some("19"),
-            "7" => return Some("15"),
-            "8" => return Some("21"),
-            "9" => return Some("16"),
+        match choice.parse::<usize>() {
+            Ok(num) if num >= min && num <= max => return num,
             _ => {
-                println!("Invalid choice. Please select between 0 and 9.");
+                println!("Please enter a number between 0 and {}.", max);
                 continue;
             }
         }
     }
 }
 
-fn run_sorting(choice: &str, array_gen: &mut dyn FnMut() -> Vec<i32>) {
-    let mut array = array_gen();
-    match choice {
-        "0" => bogosort::bogo_sort(&mut array),
-        "15" => quantumbogosort::quantum_bogo_sort(&mut array),
-        "16" => stalinsort::stalinsort(&mut array),
-        "17" => elonsort::elon_sort(&mut array),
-        "18" => intelligentdesignsort::intelligent_design_sort(&mut array),
-        "19" => miraclesort::miracle_sort(&mut array),
-        "20" => bozosort::bozo_sort(&mut array),
-        "21" => slowsort::slowsort(&mut array),
-        "22" => humansort::human_sort(&mut array),
-        _ => unreachable!(),
-    };
-    visualizer::draw(&array);
-    println!("Sorting complete. Press Enter to return to menu.");
-    let mut tmp = String::new();
-    io::stdin().read_line(&mut tmp).unwrap();
+// Display menu for meme algorithms and handle selection
+fn show_meme_menu(category: &AlgorithmCategory) -> Option<SortFn> {
+    loop {
+        println!("\nChoose a meme sorting algorithm:");
+        println!("0. Back to Main Menu");
+        if let AlgorithmCategory::Meme(ref algos) = category {
+            for (i, algo) in algos.iter().enumerate() {
+                println!("{}. {}", i + 1, algo.name);
+            }
+        }
+
+        let choice = get_user_choice(0, get_algorithm_count(category));
+        if choice == 0 {
+            return None;
+        }
+        if let AlgorithmCategory::Meme(ref algos) = category {
+            return Some(algos[choice - 1].sort_fn);
+        }
+    }
 }
 
+// Run the selected sorting algorithm
+fn run_sorting_algorithm(sort_fn: SortFn, array: &mut Vec<i32>) {
+    sort_fn(array);
+}
+
+// Get array settings from user input or use defaults
 fn get_array_settings() -> Vec<i32> {
     print!("Use default settings? (y/n): ");
     io::stdout().flush().unwrap();
@@ -188,6 +174,7 @@ fn get_array_settings() -> Vec<i32> {
     rng::generate_random_array(min, max, count, allow_duplicates)
 }
 
+// Read numerical input from user with validation
 fn read_input(prompt: &str) -> usize {
     loop {
         let mut input = String::new();
@@ -202,6 +189,7 @@ fn read_input(prompt: &str) -> usize {
     }
 }
 
+// Read boolean input from user (y/n)
 fn read_input_bool(prompt: &str) -> bool {
     let mut input = String::new();
     print!("{}", prompt);
