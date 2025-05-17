@@ -20,6 +20,7 @@ use algorithms::{
     intelligentdesignsort,
     mergesort,
     miraclesort,
+    pigeonholesort,
     powersort,
     quantumbogosort,
     quicksort,
@@ -34,25 +35,26 @@ fn main() {
     loop {
         println!("Choose a sorting algorithm:");
         println!("0. Meme Algorithms");
-        println!("1. Quicksort");
+        println!("1. Brick Sort");
         println!("2. Bubblesort");
-        println!("3. Heapsort");
-        println!("4. Insertionsort");
-        println!("5. Mergesort");
-        println!("6. Shellsort");
-        println!("7. Timsort");
-        println!("8. Countingsort");
-        println!("9. Radixsort");
-        println!("10. Bucketsort");
-        println!("11. Cyclesort");
-        println!("12. Cocktail Shaker Sort");
-        println!("13. Gnomesort");
-        println!("14. Combsort");
-        println!("15. Power Sort");
-        println!("16. Brick Sort");
+        println!("3. Bucketsort");
+        println!("4. Cocktail Shaker Sort");
+        println!("5. Combsort");
+        println!("6. Countingsort");
+        println!("7. Cyclesort");
+        println!("8. Gnomesort");
+        println!("9. Heapsort");
+        println!("10. Insertionsort");
+        println!("11. Mergesort");
+        println!("12. Pigeonhole Sort");
+        println!("13. Power Sort");
+        println!("14. Quicksort");
+        println!("15. Radixsort");
+        println!("16. Shellsort");
+        println!("17. Timsort");
 
         let mut choice = String::new();
-        print!("Enter choice (0-16): ");
+        print!("Enter choice (0-17): ");
         io::stdout().flush().unwrap();
         io::stdin().read_line(&mut choice).unwrap();
         let choice = choice.trim();
@@ -70,9 +72,9 @@ fn main() {
         }
 
         match choice {
-            "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11" | "12" | "13" | "14" | "15" | "16" => {},
+            "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11" | "12" | "13" | "14" | "15" | "16" | "17" => {},
             _ => {
-                println!("Only 0: Meme Algorithms, 1: Quicksort, 2: Bubblesort, 3: Heapsort, 4: Insertionsort, 5: Mergesort, 6: Shellsort, 7: Timsort, 8: Countingsort, 9: Radixsort, 10: Bucketsort, 11: Cyclesort, 12: Cocktail Shaker Sort, 13: Gnomesort, 14: Combsort, 15: Power Sort, 16: Brick Sort are implemented.");
+                println!("Only 0: Meme Algorithms, 1: Brick Sort, 2: Bubblesort, 3: Bucketsort, 4: Cocktail Shaker Sort, 5: Combsort, 6: Countingsort, 7: Cyclesort, 8: Gnomesort, 9: Heapsort, 10: Insertionsort, 11: Mergesort, 12: Pigeonhole Sort, 13: Power Sort, 14: Quicksort, 15: Radixsort, 16: Shellsort, 17: Timsort are implemented.");
                 continue;
             }
         }
@@ -81,22 +83,23 @@ fn main() {
         visualizer::draw(&array);
 
         match choice {
-            "1" => quicksort::quicksort(&mut array),
+            "1" => bricksort::brick_sort(&mut array),
             "2" => bubblesort::bubble_sort(&mut array),
-            "3" => heapsort::heap_sort(&mut array),
-            "4" => insertionsort::insertion_sort(&mut array),
-            "5" => mergesort::merge_sort(&mut array),
-            "6" => shellsort::shell_sort(&mut array),
-            "7" => timsort::timsort(&mut array),
-            "8" => countingsort::counting_sort(&mut array),
-            "9" => radixsort::radix_sort(&mut array),
-            "10" => bucketsort::bucket_sort(&mut array),
-            "11" => cyclesort::cycle_sort(&mut array),
-            "12" => cocktailshakersort::cocktail_shaker_sort(&mut array),
-            "13" => gnomesort::gnome_sort(&mut array),
-            "14" => combsort::comb_sort(&mut array),
-            "15" => powersort::power_sort(&mut array),
-            "16" => bricksort::brick_sort(&mut array),
+            "3" => bucketsort::bucket_sort(&mut array),
+            "4" => cocktailshakersort::cocktail_shaker_sort(&mut array),
+            "5" => combsort::comb_sort(&mut array),
+            "6" => countingsort::counting_sort(&mut array),
+            "7" => cyclesort::cycle_sort(&mut array),
+            "8" => gnomesort::gnome_sort(&mut array),
+            "9" => heapsort::heap_sort(&mut array),
+            "10" => insertionsort::insertion_sort(&mut array),
+            "11" => mergesort::merge_sort(&mut array),
+            "12" => pigeonholesort::pigeonhole_sort(&mut array),
+            "13" => powersort::power_sort(&mut array),
+            "14" => quicksort::quicksort(&mut array),
+            "15" => radixsort::radix_sort(&mut array),
+            "16" => shellsort::shell_sort(&mut array),
+            "17" => timsort::timsort(&mut array),
             _ => unreachable!(),
         };
 
@@ -112,14 +115,14 @@ fn show_meme_menu() -> Option<&'static str> {
         println!("\nChoose a meme sorting algorithm:");
         println!("0. Back to Main Menu");
         println!("1. Bogosort");
-        println!("2. Quantum Bogosort");
-        println!("3. Stalin Sort");
-        println!("4. Elon Sort");
+        println!("2. Bozo Sort");
+        println!("3. Elon Sort");
+        println!("4. Human Sort");
         println!("5. Intelligent Design Sort");
         println!("6. Miracle Sort");
-        println!("7. Bozo Sort");
+        println!("7. Quantum Bogosort");
         println!("8. Slow Sort");
-        println!("9. Human Sort");
+        println!("9. Stalin Sort");
 
         let mut choice = String::new();
         print!("Enter choice (0-9): ");
@@ -130,14 +133,14 @@ fn show_meme_menu() -> Option<&'static str> {
         match choice {
             "0" => return None,
             "1" => return Some("0"),
-            "2" => return Some("15"),
-            "3" => return Some("16"),
-            "4" => return Some("17"),
+            "2" => return Some("20"),
+            "3" => return Some("17"),
+            "4" => return Some("22"),
             "5" => return Some("18"),
             "6" => return Some("19"),
-            "7" => return Some("20"),
+            "7" => return Some("15"),
             "8" => return Some("21"),
-            "9" => return Some("22"),
+            "9" => return Some("16"),
             _ => {
                 println!("Invalid choice. Please select between 0 and 9.");
                 continue;
